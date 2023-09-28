@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+pyserial
+fastapi_mail
+python-dotenv

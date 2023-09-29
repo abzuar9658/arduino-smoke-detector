@@ -4,7 +4,11 @@ from fastapi import FastAPI, BackgroundTasks
 from fastapi import FastAPI, WebSocket
 import serial
 import re
+from fastapi.templating import Jinja2Templates
+
 from send_email import send_email_background
+
+templates = Jinja2Templates(directory="templates")
 
 app = FastAPI()
 
@@ -17,11 +21,8 @@ def read_arduino(background_tasks: BackgroundTasks):
         reading = re.findall('\d+',ser.readline().decode())
         if len(reading) > 0:
             smoke = int(reading[0])
-            if smoke >= 60:
-                # try:
+            if smoke >= 300:
                 send_email_background('abuzar_12@hotmail.com', str(smoke), background_tasks)
-                # except:
-                #     'Failed to send'
             break
 
     return smoke

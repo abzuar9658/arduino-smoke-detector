@@ -3,7 +3,7 @@ from fastapi import BackgroundTasks
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
 from dotenv import load_dotenv
 load_dotenv('.env')
-
+from pathlib import Path
 
 class Envs:
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
@@ -22,8 +22,8 @@ conf = ConnectionConfig(
     MAIL_STARTTLS = False,
     MAIL_SSL_TLS = True,
     USE_CREDENTIALS = True,
-    VALIDATE_CERTS = True
-)
+    VALIDATE_CERTS = True,
+    TEMPLATE_FOLDER= './templates/email')
 
 def send_email_background(email_to, body, background_tasks: BackgroundTasks):
     message = MessageSchema(

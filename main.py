@@ -12,8 +12,8 @@ templates = Jinja2Templates(directory="templates")
 
 app = FastAPI()
 
-@app.get("/")
-def read_arduino(background_tasks: BackgroundTasks):
+@app.get("/fetch_temperature")
+def read_arduino(email: str, background_tasks: BackgroundTasks):
     ser = serial.Serial('/dev/cu.usbmodem14201', 9800, timeout=1)
 
     smoke = None
@@ -22,7 +22,7 @@ def read_arduino(background_tasks: BackgroundTasks):
         if len(reading) > 0:
             smoke = int(reading[0])
             if smoke >= 300:
-                send_email_background('abuzar_12@hotmail.com', str(smoke), background_tasks)
+                send_email_background(email, str(smoke), background_tasks)
             break
 
     return smoke
